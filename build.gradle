@@ -7,6 +7,7 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("org.projectlombok:lombok:1.18.2")
 	}
 }
 
@@ -23,10 +24,16 @@ repositories {
 	mavenCentral()
 }
 
+//Spring Boot Overriding
+ext['hibernate.version'] = '5.2.11.Final'
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	runtime('com.h2database:h2')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile("org.springframework.boot:spring-boot-starter-data-jpa")
+	compile("org.springframework.boot:spring-boot-starter-web")
+	compile("pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.0")
+    compile("org.springframework.boot:spring-boot-devtools")
+    compile("org.projectlombok:lombok:1.18.2")
+    compile("javax.xml.bind:jaxb-api:2.2.1")    
+	runtime("com.h2database:h2")
+	testCompile("org.springframework.boot:spring-boot-starter-test")
 }
