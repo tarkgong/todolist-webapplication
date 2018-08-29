@@ -36,73 +36,64 @@ public class TodoRepositoryTest {
 
     @Test
     public void Todo_create() {
-        //given
     	todoRepository.save(Todo.builder()
-    							.title("테스트 할일")
+    							.title("Todo Create")
     							.isfinish(false)
     							.build());
 
-        //when
         List<Todo> todoList = todoRepository.findAll();
 
-        //then
         Todo todo = todoList.get(0);
-        assertThat(todo.getTitle(), is("테스트 할일"));
+        assertThat(todo.getTitle(), is("Todo Create"));
     }
 
     @Test
-    public void bateTime_create () {
-        //given
+    public void baseTime_create () {
         LocalDateTime now = LocalDateTime.now();
     	todoRepository.save(Todo.builder()
-				.title("테스트 할일")
+				.title("Todo Create")
 				.isfinish(false)
 				.build());
     	
-        //when
         List<Todo> todoList = todoRepository.findAll();
 
-        //then
         Todo todo = todoList.get(0);
-        assertThat(todo.getTitle(), is("테스트 할일"));
+        assertThat(todo.getTitle(), is("Todo Create"));
         assertTrue(todo.getCreatedDate().isAfter(now));
         assertTrue(todo.getModifiedDate().isAfter(now));
     }
     
     @Test
     public void Todo_findAllByIsfinish() {
-        //given
     	todoRepository.save(Todo.builder()
-    							.title("테스트 할일")
+    							.title("Todo Create")
     							.isfinish(false)
     							.build());
 
     	todoRepository.save(Todo.builder()
-				.title("테스트 할일2")
+				.title("Todo Create2")
 				.isfinish(false)
 				.build());
     	
     	todoRepository.save(Todo.builder()
-				.title("테스트 할일3")
+				.title("Todo Create3")
 				.isfinish(true)
 				.build());
-        //when
-        List<Todo> todoList = todoRepository.findAllByIsfinish(false);
 
-        //then
+    	List<Todo> todoList = todoRepository.findAllByIsfinish(false);
+
         assertThat(todoList.size(), is(2));
     }
     
     @Test
     public void Todo_findAllByTodoReferTodoReferIdReferIdAndIsfinish() {
-        //given
     	Long id = todoRepository.save(Todo.builder()
-    							.title("테스트 할일")
+    							.title("Todo Create")
     							.isfinish(false)
     							.build()).getId();
 
     	Long id2 = todoRepository.save(Todo.builder()
-				.title("테스트 할일2")
+				.title("Todo Create2")
 				.isfinish(false)
 				.build()).getId();
     	
@@ -114,24 +105,21 @@ public class TodoRepositoryTest {
 						.build())
 				.build());
     	
-        //when
         List<Todo> todoList = todoRepository.findAllByTodoReferTodoReferIdReferIdAndIsfinish(id, false);
         
-        //then
-        assertThat(todoList.get(0).getTitle(), is("테스트 할일2"));
+        assertThat(todoList.get(0).getTitle(), is("Todo Create2"));
         assertThat(todoList.size(), is(1));
     }
 
     @Test
     public void Todo_findTodoListForSelect() {
-        //given
     	Long id = todoRepository.save(Todo.builder()
-    							.title("테스트 할일")
+    							.title("Todo Create")
     							.isfinish(false)
     							.build()).getId();
 
     	Long id2 = todoRepository.save(Todo.builder()
-				.title("테스트 할일2")
+				.title("Todo Create2")
 				.isfinish(false)
 				.build()).getId();
     	
@@ -144,14 +132,12 @@ public class TodoRepositoryTest {
 				.build());
     	
     	Long id3 = todoRepository.save(Todo.builder()
-				.title("테스트 할일3")
+				.title("Todo Create3")
 				.isfinish(false)
 				.build()).getId();
     	
-        //when
         List<Todo> todoList = todoRepository.findTodoListForSelect(id);
         
-        //then
         assertThat(todoList.get(0).getId(), is(id3));
         assertThat(todoList.size(), is(1));
     }

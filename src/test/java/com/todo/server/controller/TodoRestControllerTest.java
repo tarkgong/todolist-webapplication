@@ -33,7 +33,7 @@ public class TodoRestControllerTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
         
         // 1. create check start
-    	String requestJson = "{\"title\":\"할일 등록\"}";
+    	String requestJson = "{\"title\":\"Todo Create\"}";
         HttpEntity<String> entity = new HttpEntity<String>(requestJson, headers);
         String firstTodoId = restTemplate.postForObject("/todos/", entity, String.class);
         List<Todo> todo = Arrays.asList(this.restTemplate.getForObject("/todos/select", Todo[].class));
@@ -42,16 +42,16 @@ public class TodoRestControllerTest {
         // 1. create check end
 
         // 2. update check start
-        requestJson = "{\"title\":\"할일 등록 edit\"}";
+        requestJson = "{\"title\":\"Todo Create Edit\"}";
         entity = new HttpEntity<String>(requestJson, headers);
         ResponseEntity<String> firstTodoEditId = restTemplate.exchange("/todos/" + firstTodoId, HttpMethod.PUT, entity, String.class);
         todo = Arrays.asList(this.restTemplate.getForObject("/todos/select", Todo[].class));
     
-        assertThat(todo.get(0).getTitle()).isEqualTo("할일 등록 edit");
+        assertThat(todo.get(0).getTitle()).isEqualTo("Todo Create Edit");
         // 2. update check end
 
         // 3. create2 check start
-        requestJson = "{\"title\":\"할일 등록\",\"referIds\":[" + firstTodoId + "]}";
+        requestJson = "{\"title\":\"Todo Create\",\"referIds\":[" + firstTodoId + "]}";
         entity = new HttpEntity<String>(requestJson, headers);
         String secondTodoId = restTemplate.postForObject("/todos/", entity, String.class);
         todo = Arrays.asList(this.restTemplate.getForObject("/todos/select", Todo[].class));

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,7 +44,7 @@ public class TodoServiceTest {
 
     @Test
     public void Todo_create_titleOnly() {
-    	TodoCreateRequestDto todoCreateRequestDto = TodoCreateRequestDto.builder().title("테스트 title Only").build();
+    	TodoCreateRequestDto todoCreateRequestDto = TodoCreateRequestDto.builder().title("TEST title Only").build();
     	
     	todoService.create(todoCreateRequestDto);
     	
@@ -53,13 +55,13 @@ public class TodoServiceTest {
     
     @Test
     public void Todo_create_titleAndReferCount1() {
-    	TodoCreateRequestDto dtoTestValue1 = TodoCreateRequestDto.builder().title("테스트 title And Refer 1").build();
+    	TodoCreateRequestDto dtoTestValue1 = TodoCreateRequestDto.builder().title("TEST title And Refer 1").build();
     	Long dtoTestValue1Id = todoService.create(dtoTestValue1);
     	
     	List<Long> idList = new ArrayList<Long>();
     	idList.add(dtoTestValue1Id);
     	
-    	TodoCreateRequestDto dtoTestValue2 = TodoCreateRequestDto.builder().title("테스트 title And Refer 2").referIds(idList).build();
+    	TodoCreateRequestDto dtoTestValue2 = TodoCreateRequestDto.builder().title("TEST title And Refer 2").referIds(idList).build();
     	Long dtoTestValue2Id = todoService.create(dtoTestValue2);
     	
 		Optional<Todo> getTodo = todoRepository.findById(dtoTestValue2Id);
@@ -72,17 +74,17 @@ public class TodoServiceTest {
     
     @Test
     public void Todo_create_titleAndReferCount2() {
-    	TodoCreateRequestDto dtoTestValue1 = TodoCreateRequestDto.builder().title("테스트 title And Refer 1").build();
+    	TodoCreateRequestDto dtoTestValue1 = TodoCreateRequestDto.builder().title("TEST title And Refer 1").build();
     	Long dtoTestValue1Id = todoService.create(dtoTestValue1);
     	
-    	TodoCreateRequestDto dtoTestValue2 = TodoCreateRequestDto.builder().title("테스트 title And Refer 2").build();
+    	TodoCreateRequestDto dtoTestValue2 = TodoCreateRequestDto.builder().title("TEST title And Refer 2").build();
     	Long dtoTestValue2Id = todoService.create(dtoTestValue2);
     	
     	List<Long> idList = new ArrayList<Long>();
     	idList.add(dtoTestValue1Id);
     	idList.add(dtoTestValue2Id);
 
-    	TodoCreateRequestDto dtoTestValue3 = TodoCreateRequestDto.builder().title("테스트 title And Refer 3").referIds(idList).build();
+    	TodoCreateRequestDto dtoTestValue3 = TodoCreateRequestDto.builder().title("TEST title And Refer 3").referIds(idList).build();
     	Long dtoTestValue3Id = todoService.create(dtoTestValue3);
     	
 		Optional<Todo> getTodo = todoRepository.findById(dtoTestValue3Id);
@@ -93,10 +95,10 @@ public class TodoServiceTest {
     
     @Test
     public void Todo_update_titleOnly() {
-    	TodoCreateRequestDto dtoTestValue1 = TodoCreateRequestDto.builder().title("테스트 update title Only").build();
+    	TodoCreateRequestDto dtoTestValue1 = TodoCreateRequestDto.builder().title("TEST update title Only").build();
     	Long dtoTestValue1Id = todoService.create(dtoTestValue1);
     	
-    	TodoUpdateRequestDto dtoUpdate = TodoUpdateRequestDto.builder().title("테스트 update title Only modify").build();
+    	TodoUpdateRequestDto dtoUpdate = TodoUpdateRequestDto.builder().title("TEST update title Only modify").build();
 	
     	todoService.update(dtoTestValue1Id, dtoUpdate);
 
@@ -107,24 +109,22 @@ public class TodoServiceTest {
     
     @Test
     public void Todo_update_titleAndReferCount1() {
-    	TodoCreateRequestDto dtoTestValue1 = TodoCreateRequestDto.builder().title("테스트 update title And Refer 1").build();
+    	TodoCreateRequestDto dtoTestValue1 = TodoCreateRequestDto.builder().title("TEST update title And Refer 1").build();
     	Long dtoTestValue1Id = todoService.create(dtoTestValue1);
     	
-    	TodoCreateRequestDto dtoTestValue2 = TodoCreateRequestDto.builder().title("테스트 update title And Refer 2").build();
+    	TodoCreateRequestDto dtoTestValue2 = TodoCreateRequestDto.builder().title("TEST update title And Refer 2").build();
     	Long dtoTestValue2Id = todoService.create(dtoTestValue2);
     	
     	List<Long> idList = new ArrayList<Long>();
     	idList.add(dtoTestValue1Id);
     	
-    	TodoCreateRequestDto dtoTestValue3 = TodoCreateRequestDto.builder().title("테스트 update title And Refer 3").referIds(idList).build();
+    	TodoCreateRequestDto dtoTestValue3 = TodoCreateRequestDto.builder().title("TEST update title And Refer 3").referIds(idList).build();
     	Long dtoTestValue3Id = todoService.create(dtoTestValue3);
     	
-		Optional<Todo> getTodo1 = todoRepository.findById(dtoTestValue3Id);
-
     	List<Long> idListUpdate = new ArrayList<Long>();
     	idListUpdate.add(dtoTestValue2Id);
     	
-    	TodoUpdateRequestDto dtoUpdate = TodoUpdateRequestDto.builder().title("테스트 update title And Refer 3 modify").referIds(idListUpdate).build();
+    	TodoUpdateRequestDto dtoUpdate = TodoUpdateRequestDto.builder().title("TEST update title And Refer 3 modify").referIds(idListUpdate).build();
 
     	todoService.update(dtoTestValue3Id, dtoUpdate);
     	
@@ -138,7 +138,7 @@ public class TodoServiceTest {
     
     @Test
     public void Todo_updateStatus_todoOne() {
-    	TodoCreateRequestDto dtoTestValue1 = TodoCreateRequestDto.builder().title("테스트 update title Only").build();
+    	TodoCreateRequestDto dtoTestValue1 = TodoCreateRequestDto.builder().title("TEST update title Only").build();
     	Long dtoTestValue1Id = todoService.create(dtoTestValue1);
     	
     	todoService.updateStatus(dtoTestValue1Id);
@@ -150,13 +150,13 @@ public class TodoServiceTest {
  
     @Test(expected = RestException.class)
     public void Todo_updateStatus_todoNotAllFinish() {
-    	TodoCreateRequestDto dtoTestValue1 = TodoCreateRequestDto.builder().title("테스트 title And Refer 1").build();
+    	TodoCreateRequestDto dtoTestValue1 = TodoCreateRequestDto.builder().title("TEST title And Refer 1").build();
     	Long dtoTestValue1Id = todoService.create(dtoTestValue1);
     	
     	List<Long> idList = new ArrayList<Long>();
     	idList.add(dtoTestValue1Id);
     	
-    	TodoCreateRequestDto dtoTestValue2 = TodoCreateRequestDto.builder().title("테스트 title And Refer 2").referIds(idList).build();
+    	TodoCreateRequestDto dtoTestValue2 = TodoCreateRequestDto.builder().title("TEST title And Refer 2").referIds(idList).build();
     	todoService.create(dtoTestValue2);
     	
     	todoService.updateStatus(dtoTestValue1Id);        
@@ -164,13 +164,13 @@ public class TodoServiceTest {
 
     @Test
     public void Todo_updateStatus_todoAllFinish() {
-    	TodoCreateRequestDto dtoTestValue1 = TodoCreateRequestDto.builder().title("테스트 title And Refer 1").build();
+    	TodoCreateRequestDto dtoTestValue1 = TodoCreateRequestDto.builder().title("TEST title And Refer 1").build();
     	Long dtoTestValue1Id = todoService.create(dtoTestValue1);
     	
     	List<Long> idList = new ArrayList<Long>();
     	idList.add(dtoTestValue1Id);
     	
-    	TodoCreateRequestDto dtoTestValue2 = TodoCreateRequestDto.builder().title("테스트 title And Refer 2").referIds(idList).build();
+    	TodoCreateRequestDto dtoTestValue2 = TodoCreateRequestDto.builder().title("TEST title And Refer 2").referIds(idList).build();
     	Long dtoTestValue2Id = todoService.create(dtoTestValue2);
     	
     	todoService.updateStatus(dtoTestValue2Id);

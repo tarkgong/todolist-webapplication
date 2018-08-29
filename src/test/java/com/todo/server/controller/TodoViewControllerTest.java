@@ -19,10 +19,8 @@ public class TodoViewControllerTest {
 
     @Test
     public void mainPageLoding() {
-        //when
         String body = this.restTemplate.getForObject("/", String.class);
 
-        //then
         assertThat(body).contains("Todolist-web application");
     }
 }

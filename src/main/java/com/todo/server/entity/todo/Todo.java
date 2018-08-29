@@ -3,6 +3,7 @@ package com.todo.server.entity.todo;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,6 +30,7 @@ public class Todo extends BaseEntity{
 	private Long id;
 	
 	@NotNull
+	@Column(length=50)
 	private String title;
 	
 	@NotNull

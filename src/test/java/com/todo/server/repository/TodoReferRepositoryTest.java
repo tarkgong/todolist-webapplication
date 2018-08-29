@@ -1,9 +1,11 @@
 package com.todo.server.repository;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -36,15 +38,13 @@ public class TodoReferRepositoryTest {
 
     @Test
     public void TodoRefer_create() {
-        //given
-        //given
     	Long id = todoRepository.save(Todo.builder()
-    							.title("테스트 할일")
+    							.title("Todo Create")
     							.isfinish(false)
     							.build()).getId();
 
     	Long id2 = todoRepository.save(Todo.builder()
-				.title("테스트 할일2")
+				.title("Todo Create2")
 				.isfinish(false)
 				.build()).getId();
     	
@@ -56,26 +56,27 @@ public class TodoReferRepositoryTest {
 						.build())
 				.build());
 
-        //when
-        List<TodoRefer> todoReferList = todoReferRepository.findAll();
+		Optional<TodoRefer> todoRefer
+			= todoReferRepository.findById(TodoReferId
+										.builder()
+										.id(id2)
+										.referId(id)
+										.build());
 
-        //then
-        TodoRefer todoRefer = todoReferList.get(0);
-        assertThat(todoRefer.getTodoReferId().getId(), is(id2));
-        assertThat(todoRefer.getTodoReferId().getReferId(), is(id));
+        assertThat(todoRefer.get().getTodoReferId().getId(), is(id2));
+        assertThat(todoRefer.get().getTodoReferId().getReferId(), is(id));
     }
     
     @Test
     @Transactional
     public void TodoRefer_deleteByTodoReferIdId() {
-        //given
     	Long id = todoRepository.save(Todo.builder()
-    							.title("테스트 할일")
+    							.title("Todo Create")
     							.isfinish(false)
     							.build()).getId();
 
     	Long id2 = todoRepository.save(Todo.builder()
-				.title("테스트 할일2")
+				.title("Todo Create2")
 				.isfinish(false)
 				.build()).getId();
     	
@@ -87,19 +88,10 @@ public class TodoReferRepositoryTest {
 						.build())
 				.build());
 
-        List<TodoRefer> todoRefer1
-    	= todoReferRepository.findAll();
-        System.out.println(todoRefer1.size());
-
 		todoReferRepository.deleteByTodoReferIdId(id2);
     	
-        //when
-        List<TodoRefer> todoRefer2
-        	= todoReferRepository.findAll();
-        System.out.println("---------------------------");
+		Optional<Todo> todo = todoRepository.findById(id2);
 
-        System.out.println(todoRefer2.size());
-        //then
-        assertThat(todoRefer2.size(), is(0));
+        assertThat(todo.get().getTodoRefer(), is(nullValue()));
     }
 }
