@@ -2,8 +2,6 @@ package com.todo.server.dto.todo;
 
 import javax.validation.constraints.NotEmpty;
 
-import com.todo.server.entity.todo.Todo;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

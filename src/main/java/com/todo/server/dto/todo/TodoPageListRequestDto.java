@@ -3,7 +3,6 @@ package com.todo.server.dto.todo;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.criterion.Order;
 import org.springframework.data.domain.Sort;
 
 import lombok.AccessLevel;
@@ -17,7 +16,6 @@ import lombok.Setter;
 public class TodoPageListRequestDto {
 	private int start;
 	private int length;
-	private int page;
 
 	private String[] columnList;
 	private Sort sort;

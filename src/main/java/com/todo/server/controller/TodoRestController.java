@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.todo.common.exception.RestException;
 import com.todo.server.dto.todo.TodoCreateRequestDto;
 import com.todo.server.dto.todo.TodoPageListRequestDto;
 import com.todo.server.dto.todo.TodoPageListResponseDto;

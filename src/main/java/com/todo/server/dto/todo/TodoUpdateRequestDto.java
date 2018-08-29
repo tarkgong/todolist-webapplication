@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 
-import com.todo.server.dto.todo.TodoCreateRequestDto.TodoCreateRequestDtoBuilder;
 import com.todo.server.entity.todo.Todo;
 import com.todo.server.entity.todo.TodoRefer;
 import com.todo.server.entity.todo.TodoReferId;

@@ -9,10 +9,12 @@ import lombok.Setter;
 @Setter
 public class ExceptionResponseEntity {
 	private Date timestamp;
+	private String code;
 	private String message;
 	
-	public ExceptionResponseEntity(Date timestamp, String message) {
+	public ExceptionResponseEntity(Date timestamp, String code, String message) {
 		this.timestamp = timestamp;
+		this.code = code;
 		this.message = message;
 	}
 }

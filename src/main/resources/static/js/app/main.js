@@ -175,7 +175,8 @@ var main = {
             location.reload();
 
         }).fail(function (error) {
-            alert(error.responseJSON.message);
+        	if(error.responseJSON.code === "TO001")
+        		alert("완료되지 않은 할일이 존재합니다.");
         });    	
     }
 

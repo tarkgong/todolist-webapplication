@@ -15,21 +15,21 @@ import com.todo.common.exception.entity.ExceptionResponseEntity;
 public class CutomExceptionHandler {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public final ResponseEntity<Object> MethodArgumentNotValidExceptio(MethodArgumentNotValidException ex, WebRequest request) {
-		ExceptionResponseEntity errorDetails = new ExceptionResponseEntity(new Date(), ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+		ExceptionResponseEntity errorDetails = new ExceptionResponseEntity(new Date(), "VC001", ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
 	    
 		return new ResponseEntity(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@ExceptionHandler(RestException.class)
 	public final ResponseEntity<Object> handleRestExceptions(RestException ex, WebRequest request) {
-		ExceptionResponseEntity errorDetails = new ExceptionResponseEntity(new Date(), ex.getMessage());
+		ExceptionResponseEntity errorDetails = new ExceptionResponseEntity(new Date(), ex.getCode(), ex.getMessage());
 	    
 		return new ResponseEntity(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@ExceptionHandler(Exception.class)
 	public final ResponseEntity<Object> handleRestExceptions(Exception ex, WebRequest request) {
-		ExceptionResponseEntity errorDetails = new ExceptionResponseEntity(new Date(), ex.getMessage());
+		ExceptionResponseEntity errorDetails = new ExceptionResponseEntity(new Date(), "EX001", ex.getMessage());
 	    
 		return new ResponseEntity(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
 	}

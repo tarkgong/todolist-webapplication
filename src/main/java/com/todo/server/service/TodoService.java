@@ -83,7 +83,7 @@ public class TodoService{
     		
     		return id;
     	}else {
-        	throw new RestException("Not completed Todo exists.");
+        	throw new RestException("TO001", "Not completed Todo exists.");
     	}
     }
 }
