@@ -48,7 +48,10 @@ Todo-list Application
   
 2. 빌드 및 실행 방법
 -------------
-- 명령줄 실행 시프로젝트 경로에서 실행
+- jar 실행(프로젝트 경로인경우) - build/libs 에 jar 파일을 upload 하였습니다.
+  * java -jar /build/libs/todolist-application-0.0.1-SNAPSHOT.jar
+  
+- gradle 로 실행  
   * gradle build
   * gradle bootRun
   * 접속 : http://127.0.0.1/8080 
