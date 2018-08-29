@@ -16,6 +16,5 @@ public interface TodoRepository extends JpaRepository <Todo, Long>{
 	@Query("SELECT todo from Todo todo " +
 		   "LEFT OUTER JOIN todo.todoRefer todo_refer WHERE todo.id <> ?1 AND (todo_refer.todoReferId.referId <> ?1 AND todo.isfinish = false OR todo_refer.todoReferId.referId IS NULL)")
 	List<Todo> findTodoListForSelect(Long id);
-	//List<Todo> findAllByIdNotAndTodoReferTodoReferIdReferIdNotAndIsfinishOrTodoReferTodoReferIdReferIdIsNull(Long id);
 	Page<Todo> findAll(Pageable pageable);
 }
