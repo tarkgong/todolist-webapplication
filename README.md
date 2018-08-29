@@ -1,3 +1,12 @@
-= Todo-list Application
-- 1. ¹®Á¦ÇØ°á Àü·«
+Todo-list Application
+=============
+1. ë¬¸ì œí•´ê²° ì „ëµ
+-------------
 * Framework : springboot 2.0.4
+* Language : Java 1.8
+* Bulid Tool : Gradle 4.9
+* DB : H2
+* Others : JPA, lombok
+
+2. ë¹Œë“œ ë° ì‹¤í–‰ ë°©ë²•
+-------------
