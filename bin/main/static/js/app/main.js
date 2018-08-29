@@ -1,7 +1,6 @@
 var main = {
     init : function () {
         var _this = this;
-        var selectedId;
         var columns = ['id','title','createdDate','modifiedDate','isfinish'];
         
         var table = $('#todoTable').DataTable( {
@@ -17,7 +16,6 @@ var main = {
                 	requestParam.length = params.length;
                 	                	
                 	params.order.forEach(function(element) {
-                		console.log(element)
                 		orders.push(element.column + "_" +element.dir)
                 	});
                 	
@@ -53,31 +51,52 @@ var main = {
         
                 	return data;
                 }
+            },
+            {
+                'targets': 4,
+                'render': function ( data, type, row, meta ) {
+                	if(row.isfinish){
+                		return "완료";
+                	}else{
+                		return '<button type="button" id="btn-finish" class="btn btn-secondary btn-sm"" data-dismiss="modal">완료 처리</button>'
+                	}
+                }
             }]
         });
         
-        $('#todoTable tbody').on( 'click', 'tr', function () {
-            if ( $(this).hasClass('selected') ) {
-                $(this).removeClass('selected');
+        $('#todoTable tbody').on( 'click', 'td', function () {
+            var clickRow = table.cell( this )[0];
+        	var data = table.row(clickRow[0].row).data();
+        	var trObject = $(this).parent();
+        	
+            if ( trObject.hasClass('selected') ) {
+            	trObject.removeClass('selected');
                 selectedData = null;
             }
             else {
                 table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
+                trObject.addClass('selected');
                 
-                var data = table.row( this ).data();
                 selectedData = data;
                 
-                $('#savaTodoModal').modal('show');
+            	if(clickRow[0].column !== 4){
+            		$('#savaTodoModal').modal('show');
+            	}
             }
         });
         
         $('#savaTodoModal').on('show.bs.modal', function(e) {        	
         	$('#todoReferId option').remove();
+        	
+        	var url = '/todos/select';
 
+        	if(selectedData){
+        		url = '/todos/' + selectedData.id + '/select';
+        	}
+        	
             $.ajax({
                 type: 'GET',
-                url: '/todos/select',
+                url: url,
             }).done(function(data) {
               	data.forEach(function(element) {
 
@@ -112,6 +131,11 @@ var main = {
         $('#btn-save').on('click', function () {
             _this.save();
         });
+        
+        $('#todoTable tbody').on( 'click', 'button', function () {
+            var data = table.row( $(this).parents('tr') ).data();
+            _this.finish(data);
+        });
     },
     save : function () {
         var type = 'POST';
@@ -134,11 +158,25 @@ var main = {
             contentType:'application/json; charset=utf-8',
             data: JSON.stringify(data)
         }).done(function() {
-            alert('글이 등록되었습니다.');
+            alert('할일이 등록되었습니다.');
             location.reload();
         }).fail(function (error) {
             alert(error);
         });
+    },
+    finish : function (data){
+        $.ajax({
+            type: 'PUT',
+            url: '/todos/' + data.id + '/status',
+            dataType: 'json',
+            contentType:'application/json; charset=utf-8'
+        }).done(function() {
+            alert('완료처리 되었습니다.');
+            location.reload();
+
+        }).fail(function (error) {
+            alert(error.responseJSON.message);
+        });    	
     }
 
 };
