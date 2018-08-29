@@ -39,7 +39,7 @@ public class TodoUpdateRequestDto {
     }
     
 	public void setTodoRefers(Long id) {
-		this.todoRefers = new ArrayList();
+		this.todoRefers = new ArrayList<TodoRefer>();
 		
 		for(long referId : this.referIds) {
 			this.todoRefers.add(TodoRefer.builder()

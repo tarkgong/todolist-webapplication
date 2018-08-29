@@ -23,6 +23,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @Table(name = "todo")
+@org.hibernate.annotations.DynamicUpdate
 public class Todo extends BaseEntity{
 	@Id
 	@GeneratedValue
@@ -34,7 +35,7 @@ public class Todo extends BaseEntity{
 	@NotNull
 	private Boolean isfinish;
 
-	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="id", updatable = false)
 	private Collection<TodoRefer> todoRefer;
 	
@@ -44,5 +45,9 @@ public class Todo extends BaseEntity{
         this.title = title;
         this.isfinish = isfinish;
 		this.todoRefer = todoRefer;
+    }
+    
+    public void setIsfinish(boolean isfinish) {
+    	this.isfinish = isfinish;
     }
 }

@@ -3,9 +3,8 @@ package com.todolist.server.dto.todo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.todolist.server.entity.todo.Todo;
-import com.todolist.server.entity.todo.TodoRefer;
-import com.todolist.server.entity.todo.TodoReferId;
+import org.hibernate.criterion.Order;
+import org.springframework.data.domain.Sort;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -16,40 +15,37 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TodoPageListRequestDto {
-	private Long id;
-	private String title;
-	private List<Long> referIds;
-	private TodoReferId todoReferId;
-	private List<TodoRefer> todoRefers;
-	
-    public Todo toEntity(){
-        return Todo.builder()
-        		.id(id)
-                .title(title)
-                .isfinish(false)
-                .build();
-    }
-	
-    public TodoReferId todoReferEntity(){
-        return TodoReferId
-				.builder()
-				.id(id)
-				//.referId(referId)
-				.build();
+	private int start;
+	private int length;
+	private int page;
+
+	private String[] columnList;
+	private Sort sort;
+
+    public TodoPageListRequestDto(int start, int length) {
+        this.start = start;
+        this.length = length;
     }
     
-	public void setTodoRefers(Long id) {
-		this.todoRefers = new ArrayList();
-		
-		for(long referId : this.referIds) {
-			this.todoRefers.add(TodoRefer.builder()
-							.todoReferId(TodoReferId
-											.builder()
-											.id(id)
-											.referId(referId)
-											.build())
-							.build());		
-		}
-	}
-
+    public void setOrders(String[] orders) {
+    	List<Sort.Order> orderList = new ArrayList<Sort.Order>();
+    	Sort.Order sortOrder;
+    	
+    	for (String order : orders) {
+    		String[] orderValue = order.split("_");
+    		
+    		String columnName = this.columnList[Integer.parseInt(orderValue[0])];
+    		
+    		if(orderValue[1].equals("asc"))	sortOrder = Sort.Order.asc(columnName);
+    		else							sortOrder = Sort.Order.desc(columnName);
+    		    		
+    		orderList.add(sortOrder);
+    	}
+    	
+    	sort = Sort.by(orderList);
+    }
+    
+    public int getPage() {
+    	return this.start/this.length;
+    }
 }

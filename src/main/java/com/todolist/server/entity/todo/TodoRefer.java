@@ -1,9 +1,14 @@
 package com.todolist.server.entity.todo;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -20,7 +25,7 @@ public class TodoRefer implements Serializable {
 	private TodoReferId todoReferId;
 	
     @Builder
-    public TodoRefer(TodoReferId todoReferId) {
+    public TodoRefer(TodoReferId todoReferId, List<Todo> todos) {
         this.todoReferId = todoReferId;
     }
 }

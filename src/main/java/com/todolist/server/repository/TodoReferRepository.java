@@ -8,6 +8,5 @@ import com.todolist.server.entity.todo.TodoRefer;
 import com.todolist.server.entity.todo.TodoReferId;
 
 public interface TodoReferRepository extends JpaRepository <TodoRefer, TodoReferId>{
-    public List<TodoReferRepository> findByTodoReferIdId(Long id);
     public void deleteByTodoReferIdId(Long id);
 }

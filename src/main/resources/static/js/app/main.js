@@ -2,11 +2,38 @@ var main = {
     init : function () {
         var _this = this;
         var selectedId;
+        var columns = ['id','title','createdDate','modifiedDate','isfinish'];
         
         var table = $('#todoTable').DataTable( {
+        	serverSide: true,
+        	searching: false,
             'ajax': {
-            	url: '/todo/',
-            	dataSrc: ''
+            	url: '/todos/',
+                data: function ( params ) {
+                	var requestParam = {};
+                	var orders = [];
+                	
+                	requestParam.start = params.start;
+                	requestParam.length = params.length;
+                	                	
+                	params.order.forEach(function(element) {
+                		console.log(element)
+                		orders.push(element.column + "_" +element.dir)
+                	});
+                	
+                	requestParam.columns = columns;
+                	requestParam.orders = orders;
+
+                	return requestParam;
+                },
+                dataFilter: function(data){
+                    var json = jQuery.parseJSON( data );
+                    json.recordsTotal = json.total;
+                    json.recordsFiltered = json.total;
+                    json.data = json.todos;
+         
+                    return JSON.stringify( json ); // return JSON string
+                }
             },
             columns: [
                 { data: 'id' },
@@ -26,7 +53,7 @@ var main = {
         
                 	return data;
                 }
-              } ]
+            }]
         });
         
         $('#todoTable tbody').on( 'click', 'tr', function () {
@@ -50,7 +77,7 @@ var main = {
 
             $.ajax({
                 type: 'GET',
-                url: 'todo/',
+                url: '/todos/select',
             }).done(function(data) {
               	data.forEach(function(element) {
 
@@ -88,11 +115,11 @@ var main = {
     },
     save : function () {
         var type = 'POST';
-        var url = '/todo/';
+        var url = '/todos/';
 
     	if(selectedData){
     		type = 'PUT';
-    		url = '/todo/' + selectedData.id;
+    		url = '/todos/' + selectedData.id;
     	}
     	
         var data = {};
